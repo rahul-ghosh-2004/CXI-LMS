@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import axios from "axios"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -18,13 +19,87 @@ import {
 } from "@/components/ui/tabs"
 
 const Authentication = () => {
-    const [ signupInput, setSignupInput ] = useState({
+    const [credentials, setCredentials] = useState({
         name: "", email: "", password: ""
     })
 
-    const [signinInput, setSigninInput] = useState({
-        email: "", password: ""
-    })
+    const handleNameChange = (e) => {
+        setCredentials({
+            ...credentials,
+            name: e.target.value
+        })
+    }
+
+    const handleEmailChange = (e) => {
+        setCredentials({
+            ...credentials,
+            email: e.target.value
+        })
+    }
+
+    const handleSignup = async (e) => {
+        e.preventDefault()
+
+        const signupURL = "http://localhost:3000/api/v1/cxi/user/register"
+        const data = {
+            name: credentials.name,
+            email: credentials.email,
+            password: credentials.password
+        }
+
+        try {
+            const response = await axios.post(
+                signupURL,
+                data,
+                {
+                    credentials: true,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+
+            console.log(response?.data)
+        } catch (error) {
+            console.log(error?.response?.data)
+        }
+    }
+
+    const handleSignin = async (e) => {
+        e.preventDefault()
+
+        const loginURL = "http://localhost:3000/api/v1/cxi/user/login"
+        const data = {
+            email: credentials.email,
+            password: credentials.password
+        }
+
+        try {
+            const response = await axios.post(
+                loginURL,
+                data,
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            )
+
+            console.log(response?.data)
+
+        } catch (error) {
+            console.log(error?.response?.data)
+        }
+    }
+
+    const handlePasswordChange = (e) => {
+        setCredentials({
+            ...credentials,
+            password: e.target.value
+        })
+    }
+
+    // console.log(credentials)
 
     return (
         <div className={"flex items-center justify-center mt-10"}>
@@ -44,24 +119,24 @@ const Authentication = () => {
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
                                 <Label htmlFor="name">Name</Label>
-                                <Input id="name" type={"text"} placeholder={"Enter your name ..."} required={true}/>
+                                <Input id="name" type={"text"} placeholder={"Enter your name ..."} onChange={handleNameChange} required={true} />
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="email">E-Mail</Label>
-                                <Input id="email" type={"email"} placeholder={"e.g., abc@example.com"} required={true}/>
+                                <Input id="email" type={"email"} placeholder={"e.g., abc@example.com"} onChange={handleEmailChange} required={true} />
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type={"password"} placeholder={"Enter your password ..."} required={true}/>
+                                <Input id="password" type={"password"} placeholder={"Enter your password ..."} onChange={handlePasswordChange} required={true} />
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button>Sign Up</Button>
+                            <Button onClick={handleSignup}>Sign Up</Button>
                         </CardFooter>
                     </Card>
                 </TabsContent>
                 <TabsContent value="signin">
-                <Card>
+                    <Card>
                         <CardHeader>
                             <CardTitle>Signin into your account</CardTitle>
                             <CardDescription>
@@ -71,15 +146,15 @@ const Authentication = () => {
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
                                 <Label htmlFor="email">E-Mail</Label>
-                                <Input id="email" type="email" placeholder={"e.g., abc@example.com"} required={true} />
+                                <Input id="email" type="email" placeholder={"e.g., abc@example.com"} onChange={handleEmailChange} required={true} />
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" placeholder={"Enter your password ..."} required={true}/>
+                                <Input id="password" type="password" placeholder={"Enter your password ..."} onChange={handlePasswordChange} required={true} />
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button>Sign In</Button>
+                            <Button onClick={handleSignin}>Sign In</Button>
                         </CardFooter>
                     </Card>
                 </TabsContent>

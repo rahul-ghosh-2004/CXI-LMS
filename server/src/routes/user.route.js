@@ -5,7 +5,7 @@ import {
     getCurrentUser,
     logout
 } from "../controllers/user.controller.js"
-import authHandler from "../controllers/auth.middleware.js"
+import authHandler from "../middlewares/auth.middleware.js"
 
 const router = Router()
 
