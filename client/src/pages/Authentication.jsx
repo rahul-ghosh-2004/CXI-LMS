@@ -18,12 +18,15 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import { Loader2 } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { userLoggedIn } from "../app/features/authSlice.js"
 
 const Authentication = () => {
     const [credentials, setCredentials] = useState({
         name: "", email: "", password: ""
     })
     const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
 
     const handleNameChange = (e) => {
         setCredentials({
@@ -100,21 +103,23 @@ const Authentication = () => {
                     }
                 }
             )
+            dispatch(userLoggedIn({
+                user: response?.data?.data?.email
+            }))
             setCredentials({
                 name: "", email: "", password: ""
             })
             setLoading(false)
 
-            console.log(response?.data)
+            console.log(response?.data?.data?.email)
 
         } catch (error) {
             setLoading(false)
             console.log(error?.response?.data)
         }
     }
-
     return (
-        <div className={"flex items-center justify-center mt-10"}>
+        <div className={"flex items-center justify-center mt-28"}>
             <Tabs defaultValue="signup" className="w-[400px]">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="signup">Sign Up</TabsTrigger>
