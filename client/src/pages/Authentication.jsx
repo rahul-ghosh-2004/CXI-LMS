@@ -17,11 +17,13 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
+import { Loader2 } from "lucide-react"
 
 const Authentication = () => {
     const [credentials, setCredentials] = useState({
         name: "", email: "", password: ""
     })
+    const [loading, setLoading] = useState(false)
 
     const handleNameChange = (e) => {
         setCredentials({
@@ -46,6 +48,7 @@ const Authentication = () => {
 
     const handleSignup = async (e) => {
         e.preventDefault()
+        setLoading(true)
 
         const signupURL = "http://localhost:3000/api/v1/cxi/user/register"
         const data = {
@@ -64,15 +67,21 @@ const Authentication = () => {
                         "Content-Type": "application/json"
                     }
                 })
+            setLoading(false)
+            setCredentials({
+                name: "", email: "", password: ""
+            })
 
             console.log(response?.data)
         } catch (error) {
+            setLoading(false)
             console.log(error?.response?.data)
         }
     }
 
     const handleSignin = async (e) => {
         e.preventDefault()
+        setLoading(true)
 
         const loginURL = "http://localhost:3000/api/v1/cxi/user/login"
         const data = {
@@ -91,10 +100,15 @@ const Authentication = () => {
                     }
                 }
             )
+            setCredentials({
+                name: "", email: "", password: ""
+            })
+            setLoading(false)
 
             console.log(response?.data)
 
         } catch (error) {
+            setLoading(false)
             console.log(error?.response?.data)
         }
     }
@@ -117,19 +131,28 @@ const Authentication = () => {
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
                                 <Label htmlFor="name">Name</Label>
-                                <Input id="name" type={"text"} placeholder={"Enter your name ..."} onChange={handleNameChange} required={true} />
+                                <Input id="name" type={"text"} placeholder={"Enter your name ..."} onChange={handleNameChange}
+                                    value={credentials.name} required={true} />
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="email">E-Mail</Label>
-                                <Input id="email" type={"email"} placeholder={"e.g., abc@example.com"} onChange={handleEmailChange} required={true} />
+                                <Input id="email" type={"email"} placeholder={"e.g., abc@example.com"} onChange={handleEmailChange} value={credentials.email} required={true} />
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type={"password"} placeholder={"Enter your password ..."} onChange={handlePasswordChange} required={true} />
+                                <Input id="password" type={"password"} placeholder={"Enter your password ..."} onChange={handlePasswordChange} value={credentials.password} required={true} />
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button onClick={handleSignup}>Sign Up</Button>
+                            <Button onClick={handleSignup}>
+                                {
+                                    loading ? (
+                                        <>
+                                            <Loader2 className="animate-spin" /> Wait
+                                        </>
+                                    ) : "Sign Up"
+                                }
+                            </Button>
                         </CardFooter>
                     </Card>
                 </TabsContent>
@@ -144,15 +167,23 @@ const Authentication = () => {
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
                                 <Label htmlFor="email">E-Mail</Label>
-                                <Input id="email" type="email" placeholder={"e.g., abc@example.com"} onChange={handleEmailChange} required={true} />
+                                <Input id="email" type="email" placeholder={"e.g., abc@example.com"} onChange={handleEmailChange} value={credentials.email} required={true} />
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" placeholder={"Enter your password ..."} onChange={handlePasswordChange} required={true} />
+                                <Input id="password" type="password" placeholder={"Enter your password ..."} onChange={handlePasswordChange} value={credentials.password} required={true} />
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button onClick={handleSignin}>Sign In</Button>
+                            <Button onClick={handleSignin}>
+                                {
+                                    loading ? (
+                                        <>
+                                            <Loader2 className="animate-spin" /> Wait
+                                        </>
+                                    ) : "Sign In"
+                                }
+                            </Button>
                         </CardFooter>
                     </Card>
                 </TabsContent>
