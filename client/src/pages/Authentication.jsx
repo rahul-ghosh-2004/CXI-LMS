@@ -37,6 +37,13 @@ const Authentication = () => {
         })
     }
 
+    const handlePasswordChange = (e) => {
+        setCredentials({
+            ...credentials,
+            password: e.target.value
+        })
+    }
+
     const handleSignup = async (e) => {
         e.preventDefault()
 
@@ -91,15 +98,6 @@ const Authentication = () => {
             console.log(error?.response?.data)
         }
     }
-
-    const handlePasswordChange = (e) => {
-        setCredentials({
-            ...credentials,
-            password: e.target.value
-        })
-    }
-
-    // console.log(credentials)
 
     return (
         <div className={"flex items-center justify-center mt-10"}>
