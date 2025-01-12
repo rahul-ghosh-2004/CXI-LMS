@@ -26,12 +26,10 @@ import {
     SheetTitle,
     SheetTrigger,
 } from './ui/sheet'
-import { Label } from './ui/label'
-import { Input } from './ui/input'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 
 function Navbar() {
-    const user = false
+    const user = true
     const role = "instructor"
 
     return (
@@ -40,7 +38,7 @@ function Navbar() {
             <div className='md:flex max-w-7xl mx-auto hidden justify-between items-center h-full gap-10'>
                 <div className='flex items-center justify-center gap-x-5'>
                     <School size={30} />
-                    <h1 className='hidden md:block font-extrabold text-2xl'>CODEXINTERN</h1>
+                    <h1 className='hidden md:block font-extrabold text-2xl'>CXI-CODELAB</h1>
                 </div>
                 {/* User & Dark mode icon */}
                 <div className='flex gap-x-2 items-center justify-center'>
@@ -89,7 +87,7 @@ function Navbar() {
             <div className='flex md:hidden items-center justify-between px-4 h-full'>
                 <div className='flex items-center justify-center flex-col gap-x-5'>
                     <School size={20} />
-                    <h1 className='font-extrabold'>CODEXINTERN</h1>
+                    <h1 className='font-extrabold'>CXI-CODELAB</h1>
                 </div>
                 <div>
                     <Sheet>
@@ -106,9 +104,9 @@ function Navbar() {
                             <Separator className='mr-2' />
                             <nav className='flex flex-col space-y-4'>
                                 {/* <span>Dashboard</span> */}
-                                <span>My Learnings</span>
-                                <span>Edit Profile</span>
-                                <span>Logout</span>
+                                <span className='cursor-pointer'>My Learnings</span>
+                                <span className='cursor-pointer'>Edit Profile</span>
+                                <span className='cursor-pointer'>Logout</span>
                             </nav>
                             {
                                 role === "instructor" && (

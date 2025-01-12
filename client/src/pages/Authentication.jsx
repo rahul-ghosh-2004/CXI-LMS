@@ -18,8 +18,10 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import { Loader2 } from "lucide-react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { userLoggedIn } from "../app/features/authSlice.js"
+import { toast, Toaster } from "react-hot-toast"
+import { useNavigate } from "react-router-dom"
 
 const Authentication = () => {
     const [credentials, setCredentials] = useState({
@@ -27,6 +29,7 @@ const Authentication = () => {
     })
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleNameChange = (e) => {
         setCredentials({
@@ -103,23 +106,29 @@ const Authentication = () => {
                     }
                 }
             )
+            // toast.success(response?.data?.message || "Login successful!")
             dispatch(userLoggedIn({
                 user: response?.data?.data?.email
             }))
+            toast.success(response?.data?.message || "Login successful!")
             setCredentials({
                 name: "", email: "", password: ""
             })
             setLoading(false)
+            setInterval(() => {
+                navigate("/")
+            }, 1000)
 
-            console.log(response?.data?.data?.email)
+            console.log(response?.data?.message)
 
         } catch (error) {
             setLoading(false)
-            console.log(error?.response?.data)
+            console.log(error?.response)
         }
     }
     return (
         <div className={"flex items-center justify-center mt-28"}>
+            <Toaster position="bottom-right" reverseOrder={false}/>
             <Tabs defaultValue="signup" className="w-[400px]">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="signup">Sign Up</TabsTrigger>
