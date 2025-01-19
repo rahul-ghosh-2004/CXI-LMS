@@ -27,6 +27,7 @@ import {
     SheetTrigger,
 } from './ui/sheet'
 import { Separator } from '@radix-ui/react-dropdown-menu'
+import {Link} from "react-router-dom"
 
 function Navbar() {
     const user = true
@@ -58,10 +59,14 @@ function Navbar() {
                                         Dashboard
                                     </DropdownMenuItem>
                                     <DropdownMenuItem className="cursor-pointer">
-                                        My Learning
+                                        <Link to={"my-learning"}>
+                                            My Learning
+                                        </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem className="cursor-pointer">
-                                        Edit Profile
+                                        <Link to={"profile"}>
+                                            Edit Profile
+                                        </Link>
                                     </DropdownMenuItem>
                                     {/* <DropdownMenuItem className="cursor-pointer">
                                         Logout

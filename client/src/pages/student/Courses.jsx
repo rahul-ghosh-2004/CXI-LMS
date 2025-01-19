@@ -3,7 +3,7 @@ import React from 'react'
 import Course from './Course'
 
 function Courses() {
-    const isLoading = true
+    const isLoading = false
 
   return (
     <div className='bg-gray-50'>
