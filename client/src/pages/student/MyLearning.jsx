@@ -3,7 +3,7 @@ import Course from './Course';
 
 function MyLearning() {
 
-    const isLoading = false;
+    const isLoading = true;
     const myLearningCourses = [1, 2, 3]
 
   return (

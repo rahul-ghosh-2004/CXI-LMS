@@ -15,10 +15,14 @@ import { Label } from "@/components/ui/label"
 import { Loader2 } from 'lucide-react'
 import Course from './Course'
 import { MyLearningSkeleton } from './MyLearning'
+import { useSelector } from 'react-redux'
 
 function Profile() {
     const isLoading = true;
     const enrolledCourses = [1, 2]
+    const { user, isAuthenticated } = useSelector(state => state?.auth?.data)
+
+    // console.log(user)
 
     return (
         <div
@@ -36,17 +40,17 @@ function Profile() {
                 <div>
                     <div className='mb-2'>
                         <h1 className='font-semibold text-gray-900 dark:text-gray-100'>
-                            Name: <span className='font-normal text-gray-700 dark:text-gray-300 ml-2'>Rahul Ghosh</span>
+                            Name: <span className='font-normal text-gray-700 dark:text-gray-300 ml-2'>{user?.name}</span>
                         </h1>
                     </div>
                     <div className='mb-2'>
                         <h1 className='font-semibold text-gray-900 dark:text-gray-100'>
-                            E-Mail: <span className='font-normal text-gray-700 dark:text-gray-300 ml-2'>services@codexintern.in</span>
+                            E-Mail: <span className='font-normal text-gray-700 dark:text-gray-300 ml-2'>{user?.email}</span>
                         </h1>
                     </div>
                     <div className='mb-2'>
                         <h1 className='font-semibold text-gray-900 dark:text-gray-100'>
-                            Role: <span className='font-normal text-gray-700 dark:text-gray-300 ml-2'>Instructor</span>
+                            Role: <span className='font-normal text-gray-700 dark:text-gray-300 ml-2'>{user?.role}</span>
                         </h1>
                     </div>
                     <Dialog>
@@ -103,9 +107,12 @@ function Profile() {
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-5'>
                     {
                         enrolledCourses.length === 0 ? <h1>You haven't enrolled in any course</h1>
-                        : enrolledCourses.map((course, index) => <Course key={index}/>)
+                            : enrolledCourses.map((course, index) => <Course key={index} />)
                     }
                 </div>
+                {/* {
+                    console.log(selector)
+                } */}
             </div>
         </div>
     )

@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux"
 import { userLoggedIn } from "../app/features/authSlice.js"
 import { toast, Toaster } from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
+import { LOGIN_USER_URL } from "../../env.js"
 
 const Authentication = () => {
     const [credentials, setCredentials] = useState({
@@ -89,7 +90,7 @@ const Authentication = () => {
         e.preventDefault()
         setLoading(true)
 
-        const loginURL = "http://localhost:3000/api/v1/cxi/user/login"
+        const loginURL = LOGIN_USER_URL
         const data = {
             email: credentials.email,
             password: credentials.password
@@ -106,7 +107,6 @@ const Authentication = () => {
                     }
                 }
             )
-            // toast.success(response?.data?.message || "Login successful!")
             dispatch(userLoggedIn({
                 user: response?.data?.data?.email
             }))
@@ -119,11 +119,9 @@ const Authentication = () => {
                 navigate("/")
             }, 1000)
 
-            console.log(response?.data?.message)
-
         } catch (error) {
             setLoading(false)
-            console.log(error?.response)
+            toast.error(error?.response?.data?.message || "Unable to login!")
         }
     }
     return (
